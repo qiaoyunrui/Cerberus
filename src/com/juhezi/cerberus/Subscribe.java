@@ -9,9 +9,7 @@ import java.lang.annotation.Target;
  * Created by qiao1 on 2017/2/24.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.METHOD})
+@Target(ElementType.METHOD)
 public @interface Subscribe {
-
-    String tag();
-
+    int tag();
 }

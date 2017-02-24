@@ -25,13 +25,15 @@ class Cerberus internal constructor(builder: CerberusBuilder = Cerberus.DEFAULT_
 
     }
 
+    private val subscriberMethodFinder = SubscriberMethodFinder()
+
     init {
-        println(builder)
         //把Builder中的数据转移到Cerberus中
     }
 
     fun register(subscriber: Object) {
-
+        var subscriberClass = subscriber.`class`
+        var subscriberMethods = subscriberMethodFinder.findSubscriberMethods(subscriberClass)
     }
 
     fun unregister(subscriber: Object) {
@@ -39,6 +41,10 @@ class Cerberus internal constructor(builder: CerberusBuilder = Cerberus.DEFAULT_
     }
 
     fun subscribe() {
+
+    }
+
+    fun post(event: Object) {
 
     }
 }
