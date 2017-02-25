@@ -31,12 +31,12 @@ class Cerberus internal constructor(builder: CerberusBuilder = Cerberus.DEFAULT_
         //把Builder中的数据转移到Cerberus中
     }
 
-    fun register(subscriber: Object) {
-        var subscriberClass = subscriber.`class`
+    fun register(subscriber: Any) {
+        var subscriberClass = subscriber.javaClass
         var subscriberMethods = subscriberMethodFinder.findSubscriberMethods(subscriberClass)
     }
 
-    fun unregister(subscriber: Object) {
+    fun unregister(subscriber: Any) {
 
     }
 
@@ -44,7 +44,7 @@ class Cerberus internal constructor(builder: CerberusBuilder = Cerberus.DEFAULT_
 
     }
 
-    fun post(event: Object) {
+    fun post(event: Any) {
 
     }
 }

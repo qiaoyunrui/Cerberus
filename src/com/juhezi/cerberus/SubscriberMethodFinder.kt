@@ -19,6 +19,7 @@ internal class SubscriberMethodFinder {
         private val METHOD_CACHE =
                 HashMap<Class<*>, List<SubscriberMethod>>()
         private val MODIFIERS_IGNORE = Modifier.ABSTRACT or Modifier.STATIC
+        private val POOL_SIZE = 4
     }
 
     fun findSubscriberMethods(subscriberClass: Class<*>): List<SubscriberMethod> {
@@ -47,11 +48,6 @@ internal class SubscriberMethodFinder {
             }
         }
         return emptyList()
-    }
-
-
-    private fun check(method: Method, eventType: Class<*>) {
-
     }
 
 }
