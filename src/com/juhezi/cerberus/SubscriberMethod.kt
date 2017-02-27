@@ -7,4 +7,9 @@ import java.lang.reflect.Method
  */
 class SubscriberMethod(internal val method: Method, internal val eventType: Class<*>) {
     internal var methodString: String? = null
+
+    init {
+        methodString = "${method.name}(${method.parameterTypes[0].name}) : ${method.returnType.name}"
+    }
+
 }

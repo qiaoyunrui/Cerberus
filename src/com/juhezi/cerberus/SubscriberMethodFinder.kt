@@ -17,21 +17,20 @@ internal class SubscriberMethodFinder {
         private val BRIDGE = 0x40
         private val SYNTHETIC = 0x1000
         private val METHOD_CACHE =
-                HashMap<Class<*>, List<SubscriberMethod>>()
+                HashMap<Class<*>, MutableList<SubscriberMethod>>()
         private val MODIFIERS_IGNORE = Modifier.ABSTRACT or Modifier.STATIC
         private val POOL_SIZE = 4
     }
 
-    fun findSubscriberMethods(subscriberClass: Class<*>): List<SubscriberMethod> {
+    fun findSubscriberMethods(subscriberClass: Class<*>): MutableList<SubscriberMethod> {
         var subscriberMethods = METHOD_CACHE[subscriberClass]
         if (subscriberMethods != null)
             return subscriberMethods
-        println(subscriberClass.simpleName)
+        subscriberMethods = LinkedList<SubscriberMethod>()
         //通过注解找到对应的方法
         var methods = subscriberClass.declaredMethods
         methods.forEach {
             var modifiers = it.modifiers
-//            println("${it.name} ${modifiers}")
             //如果方法shipublic并且不是abstract、static、beidge以及synthetic类型的
             //才能调用这些方法
             if ((modifiers and Modifier.PUBLIC) != 0 &&
@@ -41,13 +40,17 @@ internal class SubscriberMethodFinder {
                     var subscriberAnnotation = it.getAnnotation(Subscribe::class.java)
                     if (subscriberAnnotation != null) {
                         var eventType = parameterTypes[0]   //获取事件类型
-
+                        //构造一个SubscriberMethod对象
+                        var subscriberMethod = SubscriberMethod(it, eventType)
+                        //把这个对象放入缓存中
+                        subscriberMethods!!.add(subscriberMethod)
                     }
-
                 }
             }
         }
-        return emptyList()
+        //添加到缓存中
+        METHOD_CACHE.put(subscriberClass, subscriberMethods)
+        return subscriberMethods
     }
 
 }
