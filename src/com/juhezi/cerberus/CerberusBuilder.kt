@@ -6,4 +6,8 @@ package com.juhezi.cerberus
 class CerberusBuilder {
     private val TAG = "CerberusBuilder"
 
+    fun build(): Cerberus {
+        return Cerberus(this)
+    }
+
 }

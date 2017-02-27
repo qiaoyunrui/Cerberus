@@ -95,7 +95,6 @@ class Cerberus internal constructor(builder: CerberusBuilder = Cerberus.DEFAULT_
     }
 
     fun post(event: Any) {
-//        println(event.javaClass.name)
         var postingState = currentPostingThreadState.get()
         var eventQueue = postingState.eventQueue
         eventQueue.add(event)
@@ -118,10 +117,9 @@ class Cerberus internal constructor(builder: CerberusBuilder = Cerberus.DEFAULT_
 
     private fun postSingleEvent(event: Any, postingThreadState: PostingThreadState) {
         var eventClass = event.javaClass
-        var subscriptionFound = false
-        subscriptionFound = postSingleEventForEventType(event, postingThreadState, eventClass)
+        var subscriptionFound = postSingleEventForEventType(event, postingThreadState, eventClass)
         if (!subscriptionFound) {
-            throw Exception("The subscription not found!")
+            println("The subscription not found!")
         }
     }
 
@@ -132,7 +130,7 @@ class Cerberus internal constructor(builder: CerberusBuilder = Cerberus.DEFAULT_
             subscriptions.forEach {
                 postingThreadState.event = event
                 postingThreadState.subscription = it
-                var aborted = false
+                var aborted: Boolean
                 try {
                     postToSubscription(it, event)
                     aborted = postingThreadState.canceled
